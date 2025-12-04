@@ -1,0 +1,75 @@
+[
+  {
+    "UserId": "user1",
+    "Pwd": "KKVjo3kG8x35N2Y/YmESbTra3xQ9R9FQOMl3NNqGoTM=",
+    "Salt": "qczUPerFoJ8jnXjQ/8SLkg==",
+    "HighestScore": 203219301,
+    "Items": {
+      "invader001": {
+        "ItemID": "invader001",
+        "Name": "purple invader",
+        "Quantity": 4
+      },
+      "food002": {
+        "ItemID": "food002",
+        "Name": "carrot",
+        "Quantity": 2
+      },
+      "food001": {
+        "ItemID": "food001",
+        "Name": "burger",
+        "Quantity": 4
+      }
+    }
+  },
+  {
+    "UserId": "user2",
+    "Pwd": "HbuC8c4yoqXLH0fJIjGyyksuc55gFc8ArnKbeGyVMcw=",
+    "Salt": "QgNevCKA7zFgN2Q77KsIDA==",
+    "HighestScore": 2000,
+    "Items": {
+      "food001": {
+        "ItemID": "food001",
+        "Name": "burger",
+        "Quantity": 3
+      },
+      "invader001": {
+        "ItemID": "invader001",
+        "Name": "purple invader",
+        "Quantity": 1
+      }
+    }
+  },
+  {
+    "UserId": "user3",
+    "Pwd": "CWCisDB8nKYqcIvMZP3c/HlspHm8/Ww6Kye4Ci3AGew=",
+    "Salt": "sOqbfZon4Q07DLud6SYfhQ==",
+    "HighestScore": 3000,
+    "Items": {}
+  },
+  {
+    "UserId": "user4",
+    "Pwd": "uYZN3HYeZcOO2zQjZ7MxXjTnDISruSqY\u002Bx6RxO9wvpo=",
+    "Salt": "MmlY6erVYRCtcLhm3mxUVw==",
+    "HighestScore": 2500,
+    "Items": {}
+  },
+  {
+    "UserId": "user12",
+    "Pwd": "i9gw0wWz7nQNkAVI1KkNDFVRGu3rNSqFS859zGLKS\u002Bs=",
+    "Salt": "QUsY2R6O9\u002BZBqYhkpVVT2A==",
+    "HighestScore": 5000,
+    "Items": {
+      "food001": {
+        "ItemID": "food001",
+        "Name": "burger",
+        "Quantity": 1
+      },
+      "invader001": {
+        "ItemID": "invader001",
+        "Name": "purple invader",
+        "Quantity": 1
+      }
+    }
+  }
+]
