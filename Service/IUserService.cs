@@ -8,8 +8,8 @@ namespace webapi.service
         
         public string Register(string userId, string pwd);
 
-        public bool RecordNewScore(string userId, int score);
+        public Task<bool> RecordNewScore(string userId, int score);
 
-        public User[] GetLeaderboard();
+        public List<User> GetLeaderboard();
     }
 }
