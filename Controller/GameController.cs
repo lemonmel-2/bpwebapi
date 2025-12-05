@@ -1,4 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
+using webapi.Controller.DTO.Request;
+using webapi.Controller.DTO.Result;
+using webapi.Enum;
+using webapi.Exception;
+using webapi.Model;
+using webapi.service;
 
 namespace webapi.Controller
 {
@@ -6,62 +12,128 @@ namespace webapi.Controller
     [ApiController]
     public class GameController : ControllerBase
     {
-        // private readonly ProductContext _context;
+        private static IUserService _userService;
+        private static IItemService _itemService;
 
-        public GameController()
+        public GameController(IUserService userService, IItemService itemService)
         {
-            // _context = context;
-
-            // if (_context.Products.Count() == 0)
-            // {
-            //     // Create a new Product if collection is empty,
-            //     // which means you can't delete all Products.
-            //     _context.Products.Add(new Product { Name = "Sample Product", Price = 9.99M });
-            //     _context.SaveChanges();
-            // }
+            _userService = userService;
+            _itemService = itemService;
         }
 
-        [HttpPost]
-        public ActionResult<string> Auth()
+        [HttpPost("login")]
+        public ActionResult<Result<string>> Login([FromBody] AuthRequest authRequest)
         {
-            return "hello";
+            try
+            {
+                if(authRequest.Password == "" || authRequest.UserId == "")
+                {
+                    throw new GameException(ErrorCode.PARAM_ILLEGAL);
+                }
+                string userId = _userService.Login(authRequest.UserId, authRequest.Password);
+                return Ok(Result<string>.Ok(userId));
+
+            }
+            catch(GameException e)
+            {
+                return BadRequest(Result<string>.Fail(e.Code));
+            }
         }
 
-        [HttpPost]
-        public ActionResult<string> RecordScore()
+        [HttpPost("register")]
+        public ActionResult<Result<string>> Register([FromBody] AuthRequest authRequest)
         {
-            return "hello";
+            try
+            {
+                if(authRequest.Password == "" || authRequest.UserId == "")
+                {
+                    throw new GameException(ErrorCode.PARAM_ILLEGAL);
+                }
+                string userId = _userService.Register(authRequest.UserId, authRequest.Password);
+                return Ok(Result<string>.Ok(userId));
+
+            }
+            catch(GameException e)
+            {
+                return BadRequest(Result<string>.Fail(e.Code));
+            }
         }
 
-        [HttpGet]
-        public ActionResult<string> ShowItem()
+        [HttpPost("recordScore/{userId}")]
+        public async Task<ActionResult<Result<bool>>> RecordScore([FromBody] RecordScoreRequest request, string userId)
         {
-            return "hello";
+            try
+            {
+                bool newHighScore = await _userService.RecordNewScore(userId, request.Score);
+                string message = newHighScore ? "New high score achieved!" : "";
+                return Ok(Result<bool>.Ok(newHighScore, message));
+
+            }
+            catch(GameException e)
+            {
+                return BadRequest(Result<bool>.Fail(e.Code));
+            }
         }
 
-        [HttpGet]
-        public ActionResult<string> GenerateItem()
+        [HttpGet("items/{userId}")]
+        public ActionResult<Result<List<Item>>> ShowItem(string userId)
         {
-            return "hello";
+            try
+            {
+                List<Item> items = _itemService.GetItems(userId);
+                return Ok(Result<List<Item>>.Ok(items));
+            }
+            catch(GameException e)
+            {
+                return BadRequest(Result<List<Item>>.Fail(e.Code));
+            }
         }
 
-        [HttpGet]
-        public ActionResult<string> ShowLeaderboard()
+        [HttpPost("addItem/{userId}")]
+        public ActionResult<Result<bool>> AddItem([FromBody] AddItemRequest request, string userId)
         {
-            return "hello";
+            try
+            {
+                if(request.ItemId == "")
+                {
+                    throw new GameException(ErrorCode.PARAM_ILLEGAL);
+                }
+                _itemService.AddItem(userId, request.ItemId);
+                return Ok(Result<bool>.Ok(true));
+            }
+            catch(GameException e)
+            {
+                return BadRequest(Result<List<Item>>.Fail(e.Code));
+            }
         }
 
-        // [HttpGet("{id}", Name = "GetProduct")]
-        // public ActionResult<Product> GetById(int id)
-        // {
-        //     var product = _context.Products.Find(id);
+        [HttpGet("randomItem")]
+        public ActionResult<Result<Item>> GenerateItem()
+        {
+            try
+            {
+                Item item = _itemService.GenerateItem();
+                return Ok(Result<Item>.Ok(item));
+            }
+            catch(GameException e)
+            {
+                return BadRequest(Result<Item>.Fail(e.Code));
+            }
+        }
 
-        //     if (product == null)
-        //     {
-        //         return NotFound();
-        //     }
+        [HttpGet("leaderboard")]
+        public ActionResult<Result<List<User>>> ShowLeaderboard()
+        {
+            try
+            {
+                List<User> result = _userService.GetLeaderboard();
+                return Ok(Result<List<User>>.Ok(result));
 
-        //     return product;
-        // }
+            }
+            catch(GameException e)
+            {
+                return BadRequest(Result<List<User>>.Fail(e.Code));
+            }
+        }
     }
 }
