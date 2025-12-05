@@ -7,45 +7,45 @@ namespace webapi.service.impl
 {
     public class ItemService : IItemService
     {
-        private static IUserRepo _userRepo = UserRepo.Instance;
+        private static IInventoryRepo _inventoryRepo;
 
         private static Random rand = new Random();
+
+        public ItemService(IInventoryRepo inventoryRepo)
+        {
+            _inventoryRepo = inventoryRepo;
+        }
 
         public void AddItem(string userId, string itemId)
         {
             try
             {
-                 User user = _userRepo.GetUser(userId);
-                Dictionary<string, Item> userItems = user.Items;
-                if(userItems.ContainsKey(itemId))
-                {
-                    user.Items[itemId].Quantity += 1;
-                }
-                else
-                {
-
-                    Item item = ItemsLibrary.GetItemById(itemId);
-                    user.Items.Add(itemId, item);
-                }
-                _userRepo.UpdateUser(user);
+                _inventoryRepo.AddInventory(userId, itemId);
             }
-            catch(KeyNotFoundException)
+            catch (KeyNotFoundException)
             {
                 throw new GameException(ErrorCode.INVALID_ITEM);
             }
         }
 
-        public Item GenerateItem(string userId)
+        public Item GenerateItem()
         {
             var keyList = new List<string>(ItemsLibrary.GetAllItems().Keys);
             string randomKey = keyList[rand.Next(keyList.Count)];
             return ItemsLibrary.GetItemById(randomKey);
         }
 
-        public Item[] GetItems(string userId)
+        public List<Item> GetItems(string userId)
         {
-            User user = _userRepo.GetUser(userId);
-            return user.Items.Values.ToArray();
+            List<Item> items = new List<Item>();
+            List<Inventory> inventory = _inventoryRepo.GetInventory(userId);
+            foreach(Inventory i in inventory)
+            {
+                Item item = ItemsLibrary.GetItemById(i.ItemId);
+                item.Quantity = i.Quantity;
+                items.Add(item);
+            }
+            return items;
         }
     }
 }

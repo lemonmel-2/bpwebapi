@@ -1,6 +1,46 @@
 @webapi_HostAddress = http://localhost:5242
+@access_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMSIsIm5iZiI6MTc2NDkyOTU5OCwiZXhwIjoxNzY0OTMzMTk4LCJpc3MiOiJ5b3VyLWFwcCIsImF1ZCI6InlvdXItY2xpZW50In0.DrIqhhbuepGgv_GxBaoKSgqBk79hCo6QWW5wdOVHr8w
+POST {{webapi_HostAddress}}/api/game/login
+Content-Type: application/json
 
-GET {{webapi_HostAddress}}/weatherforecast/
+{
+    "userId": "user",
+    "password": "hello"
+}
+
+POST {{webapi_HostAddress}}/api/game/register
+Content-Type: application/json
+
+{
+    "userId": "user3",
+    "password": "hello"
+}
+
+// item inventory 
+GET {{webapi_HostAddress}}/api/game/items
+Authorization: Bearer {{access_token}}
 Accept: application/json
+
+GET {{webapi_HostAddress}}/api/game/item-random
+Accept: application/json
+
+POST {{webapi_HostAddress}}/api/game/item-add
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+    "itemId": "food001"
+}
+
+// leaderboard
+GET {{webapi_HostAddress}}/api/game/leaderboard
+
+POST {{webapi_HostAddress}}/api/game/score
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+    "score": 1090
+}
 
 ###

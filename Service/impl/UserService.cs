@@ -1,4 +1,5 @@
 using System.Security.Cryptography;
+using Microsoft.AspNetCore.Identity;
 using webapi.Enum;
 using webapi.Exception;
 using webapi.Model;
@@ -8,19 +9,24 @@ namespace webapi.service.impl
 {
     public class UserService : IUserService
     {
-        private static IUserRepo _userRepo = UserRepo.Instance;
+        private static IUserRepo _userRepo;
 
         private static string SALT_KEY = "salt";
 
         private static string PASSWORD = "password";
+
+        public UserService(IUserRepo userRepo)
+        {
+            _userRepo = userRepo;
+        }
         
-        public bool RecordNewScore(string userId, int score)
+        public async Task<bool> RecordNewScore(string userId, int score)
         {
             User user = _userRepo.GetUser(userId);
             if(score > user.HighestScore)
             {
                 user.HighestScore = score;
-                _userRepo.UpdateUser(user);
+                await _userRepo.UpdateUser(user);
                 return true;
             }
             return false;
@@ -37,13 +43,12 @@ namespace webapi.service.impl
             {
                 throw new GameException(ErrorCode.INCORRECT_PASSWORD);
             }
-
             return userId;
         }
         
-        public User[] GetLeaderboard()
+        public List<User> GetLeaderboard()
         {
-            User[] users = _userRepo.GetTopUsers();
+            List<User> users = _userRepo.GetTopUsers();
             return users;
         }
 

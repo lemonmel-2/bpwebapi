@@ -32,7 +32,6 @@
 /home/chinfang/webapi/obj/Debug/net8.0/webapi.pdb
 /home/chinfang/webapi/obj/Debug/net8.0/webapi.genruntimeconfig.cache
 /home/chinfang/webapi/obj/Debug/net8.0/ref/webapi.dll
-/home/chinfang/webapi/bin/Debug/net8.0/Repository/tempStorage/userDb.json
 /home/chinfang/webapi/bin/Debug/net8.0/Microsoft.Data.Sqlite.dll
 /home/chinfang/webapi/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.dll
 /home/chinfang/webapi/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Abstractions.dll
@@ -68,3 +67,11 @@
 /home/chinfang/webapi/bin/Debug/net8.0/runtimes/win-arm64/native/e_sqlite3.dll
 /home/chinfang/webapi/bin/Debug/net8.0/runtimes/win-x64/native/e_sqlite3.dll
 /home/chinfang/webapi/bin/Debug/net8.0/runtimes/win-x86/native/e_sqlite3.dll
+/home/chinfang/webapi/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/home/chinfang/webapi/bin/Debug/net8.0/Microsoft.IdentityModel.Abstractions.dll
+/home/chinfang/webapi/bin/Debug/net8.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/home/chinfang/webapi/bin/Debug/net8.0/Microsoft.IdentityModel.Logging.dll
+/home/chinfang/webapi/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.dll
+/home/chinfang/webapi/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/home/chinfang/webapi/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
+/home/chinfang/webapi/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll

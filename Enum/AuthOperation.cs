@@ -1,4 +1,4 @@
-namespace webapi.@enum
+namespace webapi.Enum
 {
     public enum AuthOperation
     {

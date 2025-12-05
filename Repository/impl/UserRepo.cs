@@ -1,86 +1,74 @@
-using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
+using webapi.Data;
 using webapi.Enum;
 using webapi.Exception;
 using webapi.Model;
-using webapi.Repository;
 
-public class UserRepo : IUserRepo
+namespace webapi.Repository.impl
 {
-    
-    // singleton pattern to ensure only one instance of user repo
-    private static readonly UserRepo instance = new UserRepo();
-
-    public static UserRepo Instance => instance;
-
-    private readonly List<User> userList;
-
-    private readonly string filePath = "../consoleApp/repository/tempStorage/userDb.json";
-
-    private UserRepo()
+    public class UserRepo : IUserRepo
     {
-        if (File.Exists(filePath))
-        {
-            string json = File.ReadAllText(filePath);
-            userList = JsonSerializer.Deserialize<List<User>>(json)?? new List<User>();
-        }
-        else
-        {
-            userList = new List<User>();
-            SaveChanges();
-        }
-    }
+        private static GameContext _gameContext;
 
-    public void AddUser(User user)
-    {
-        userList.Add(user);
-        SaveChanges();
-    }
+        public UserRepo(GameContext context)
+        {
+            _gameContext = context;
+        }
 
-    public User[] GetTopUsers()
-    {
-        User[] users = userList.OrderByDescending(user => user.HighestScore).ToArray();
-        return users;
-    }
+        public async Task AddUser(User user)
+        {
+            try
+            {
+                _gameContext.Users.Add(user);
+                await _gameContext.SaveChangesAsync();
+            }
+            catch (System.Exception e)
+            {
+                throw new GameException(ErrorCode.DATABASE_ERROR);
+            }
+        }
 
-    public User GetUser(string userId)
-    {
-        try
+        public List<User> GetTopUsers()
         {
-            User user = userList.FirstOrDefault(user => user.UserId == userId);
-            return user;
+            return  _gameContext.Users
+                .OrderByDescending(u => u.HighestScore)
+                .Take(5)
+                .ToList();
         }
-        catch(ArgumentNullException)
-        {
-            throw new GameException(ErrorCode.USER_NOT_EXIST);
-        }
-    }
 
-    public void UpdateUser(User user)
-    {
-        try
+        public User GetUser(string userId)
         {
-            User selectUser = userList.FirstOrDefault(u => u.UserId == user.UserId);
-            selectUser.HighestScore = user.HighestScore;
-            selectUser.Items = user.Items;
-            SaveChanges();
+            try
+            {
+                var user = _gameContext.Users.Find(userId);
+                return user;
+            }
+            catch (System.Exception e)
+            {
+                throw new GameException(ErrorCode.DATABASE_ERROR);
+            }
         }
-        catch (ArgumentNullException)
-        {
-            throw new GameException(ErrorCode.USER_NOT_EXIST);
-        }
-    }
 
-    //Update Json File
-    private void SaveChanges()
-    {
-        try
+        public async Task UpdateUser(User user)
         {
-            string json = JsonSerializer.Serialize(userList, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(filePath, json);
-        }
-        catch (IOException)
-        {
-            throw new GameException(ErrorCode.DATABASE_ERROR);
+            try
+            {
+                var userToUpdate = await _gameContext.Users.FirstOrDefaultAsync(i => i.UserId == user.UserId);
+                if (userToUpdate == null)
+                {
+                    throw new GameException(ErrorCode.USER_NOT_EXIST);
+                }
+                _gameContext.Users.Update(user);
+                await _gameContext.SaveChangesAsync();
+            }
+            catch (GameException)
+            {
+                throw;
+            }
+            catch (System.Exception e)
+            {
+                throw new GameException(ErrorCode.DATABASE_ERROR);
+            }
         }
     }
 }
