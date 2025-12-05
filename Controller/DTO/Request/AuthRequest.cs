@@ -2,8 +2,8 @@ namespace webapi.Controller.DTO.Request
 {
     public class AuthRequest
     {
-        public string UserId { get; init; }
+        public required string UserId { get; init; }
 
-        public string Password { get; init; }
+        public required string Password { get; init; }
     }
 }
