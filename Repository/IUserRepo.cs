@@ -4,12 +4,12 @@ namespace webapi.Repository
 {
     public interface IUserRepo
     {
-        public void AddUser(User user);
+        public Task AddUser(User user);
 
         public User GetUser(string userId);
 
-        public void UpdateUser(User user);
+        public Task UpdateUser(User user);
 
-        public User[] GetTopUsers();
+        public List<User> GetTopUsers();
     }
 }

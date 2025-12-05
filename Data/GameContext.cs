@@ -9,9 +9,13 @@ namespace webapi.Data
 
         public DbSet<User> Users { get; set; } // This becomes the Users table
 
-        public DbSet<Item> Items { get; set; }
+        public DbSet<Inventory> Inventories {get; set;}
 
-        public DbSet<UserItem> UserItems {get; set;}
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Inventory>().HasKey(ui => new {ui.UserId, ui.ItemId});
+        }
 
     }
 }
