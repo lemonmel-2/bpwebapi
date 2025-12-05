@@ -11,6 +11,7 @@ namespace webapi.Enum
             Message = message;
         }
 
+        public static readonly ErrorCode SESSION_INVALID = new ErrorCode("SESSION_INVALID", "session is invalid. Please try log in again.");
         public static readonly ErrorCode PARAM_ILLEGAL = new ErrorCode("PARAM_ILLEGAL", "input parameter is invalid.");
         public static readonly ErrorCode USER_NOT_EXIST = new ErrorCode("USER_NOT_EXIST", "user not exist.");
         public static readonly ErrorCode USER_ID_EXIST = new ErrorCode("USER_ID_EXIST", "user ID used, change another one.");
