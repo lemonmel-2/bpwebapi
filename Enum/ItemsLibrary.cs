@@ -12,11 +12,11 @@ namespace webapi.Enum
 
         private static readonly Dictionary<string, Item> _itemDict = new Dictionary<string, Item>
         {
-            { INVADER_001.ItemID, INVADER_001 },
-            { INVADER_002.ItemID, INVADER_002 },
-            { INVADER_003.ItemID, INVADER_003 },
-            { FOOD_001.ItemID, FOOD_001 },
-            { FOOD_002.ItemID, FOOD_002 }
+            { INVADER_001.ItemId, INVADER_001 },
+            { INVADER_002.ItemId, INVADER_002 },
+            { INVADER_003.ItemId, INVADER_003 },
+            { FOOD_001.ItemId, FOOD_001 },
+            { FOOD_002.ItemId, FOOD_002 }
         };
 
         public static Dictionary<string, Item> GetAllItems()
