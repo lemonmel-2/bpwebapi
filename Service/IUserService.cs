@@ -10,6 +10,8 @@ namespace webapi.service
 
         public Task<bool> RecordNewScore(string userId, int score);
 
+        public User GetUser(string userId);
+
         public List<User> GetLeaderboard();
     }
 }

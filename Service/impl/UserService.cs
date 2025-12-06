@@ -20,6 +20,16 @@ namespace webapi.service.impl
             _userRepo = userRepo;
         }
         
+        public User GetUser(string userId)
+        {
+            User user = _userRepo.GetUser(userId);
+            if (user == null)
+            {
+                throw new GameException(ErrorCode.USER_NOT_EXIST);
+            }
+            return user;
+        }
+
         public async Task<bool> RecordNewScore(string userId, int score)
         {
             User user = _userRepo.GetUser(userId);
@@ -34,12 +44,8 @@ namespace webapi.service.impl
 
         public string Login(string userId, string pwd)
         {
-            User user = _userRepo.GetUser(userId);
-            if (user == null)
-            {
-                throw new GameException(ErrorCode.USER_NOT_EXIST);
-            }
-            else if(user.Pwd != Encrypt(pwd, user.Salt))
+            User user = GetUser(userId);
+            if(user.Pwd != Encrypt(pwd, user.Salt))
             {
                 throw new GameException(ErrorCode.INCORRECT_PASSWORD);
             }

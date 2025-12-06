@@ -72,6 +72,22 @@ namespace webapi.Controller
             }
         }
 
+        [HttpGet("user")]
+        public ActionResult<Result<User>> GetUser()
+        {
+            try
+            {
+                var userId = GetUserId();
+                User user = _userService.GetUser(userId);
+                return Ok(Result<User>.Ok(user));
+
+            }
+            catch(GameException e)
+            {
+                return BadRequest(Result<User>.Fail(e.Code));
+            }
+        }
+
         [HttpPost("score")]
         public async Task<ActionResult<Result<bool>>> RecordScore([FromBody] RecordScoreRequest request)
         {
