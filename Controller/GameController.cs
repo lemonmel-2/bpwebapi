@@ -30,7 +30,7 @@ namespace webapi.Controller
         }
 
         [HttpPost("login")]
-        public ActionResult<Result<string>> Login([FromBody] AuthRequest authRequest)
+        public ActionResult<Result<Token>> Login([FromBody] AuthRequest authRequest)
         {
             try
             {
