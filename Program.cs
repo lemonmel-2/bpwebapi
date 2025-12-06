@@ -38,6 +38,19 @@ builder.Services.AddAuthentication("Bearer")
     });
 
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("frontend", policy =>
+    {
+        policy
+            .WithOrigins("http://localhost:5500")
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            ;
+    });
+});
+
+
 
 var app = builder.Build();
 
@@ -65,6 +78,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("frontend");
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseHttpsRedirection();
