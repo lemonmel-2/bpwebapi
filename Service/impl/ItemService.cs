@@ -20,6 +20,7 @@ namespace webapi.service.impl
         {
             try
             {
+                Item item = ItemsLibrary.GetItemById(itemId);
                 _inventoryRepo.AddInventory(userId, itemId);
             }
             catch (KeyNotFoundException)
