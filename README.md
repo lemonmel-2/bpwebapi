@@ -16,8 +16,8 @@ This project provides a RESTful API for managing game resources, including authe
 | `/api/game/leaderboard`    | GET    | Get leaderboard       | No                      |
 | `/api/game/score`          | POST   | Record user score     | Yes                     |
 
-**Total APIs:** 7  
-**Authentication Required:** 3
+**Total APIs:** 8  
+**Authentication Required:** 4
 
 ## Database
 - **Tables:** Users, Inventories
