@@ -63,8 +63,11 @@ using (var scope = app.Services.CreateScope())
     // Check if products already exist to avoid duplicates
     if (!context.Users.Any())
     {
+        context.UserCredentials.AddRange(
+            new UserCredential("user1", "k8ZgdzoSpfZ4SJGnD7G8AG4nPokHABjSCDt8D9i3IBE=","Za8aZYFdI1d2JvVDTWZIsw==")
+        );
         context.Users.AddRange(
-            new User("user1", "k8ZgdzoSpfZ4SJGnD7G8AG4nPokHABjSCDt8D9i3IBE=","Za8aZYFdI1d2JvVDTWZIsw==")
+            new User("user1")
         );
         context.SaveChanges();
         Console.WriteLine("Sample data added to database.");

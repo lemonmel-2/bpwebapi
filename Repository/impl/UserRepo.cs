@@ -15,11 +15,12 @@ namespace webapi.Repository.impl
             _gameContext = context;
         }
 
-        public async Task AddUser(User user)
+        public async Task AddUser(UserCredential userCredential)
         {
             try
             {
-                _gameContext.Users.Add(user);
+                _gameContext.UserCredentials.Add(userCredential);
+                _gameContext.Users.Add(new User(userCredential.UserId));
                 await _gameContext.SaveChangesAsync();
             }
             catch (System.Exception e)
@@ -42,6 +43,19 @@ namespace webapi.Repository.impl
             {
                 var user = _gameContext.Users.Find(userId);
                 return user;
+            }
+            catch (System.Exception e)
+            {
+                throw new GameException(ErrorCode.DATABASE_ERROR);
+            }
+        }
+
+        public UserCredential GetUserCredential(string userId)
+        {
+            try
+            {
+                var userCredential = _gameContext.UserCredentials.Find(userId);
+                return userCredential;
             }
             catch (System.Exception e)
             {
