@@ -1,5 +1,4 @@
 using System.Security.Cryptography;
-using Microsoft.AspNetCore.Identity;
 using webapi.Enum;
 using webapi.Exception;
 using webapi.Model;
@@ -30,6 +29,16 @@ namespace webapi.service.impl
             return user;
         }
 
+        public UserCredential GetUserCredential(string userId)
+        {
+            UserCredential userCredential = _userRepo.GetUserCredential(userId);
+            if (userCredential == null)
+            {
+                throw new GameException(ErrorCode.USER_NOT_EXIST);
+            }
+            return userCredential;
+        }
+
         public async Task<bool> RecordNewScore(string userId, int score)
         {
             User user = _userRepo.GetUser(userId);
@@ -44,8 +53,8 @@ namespace webapi.service.impl
 
         public string Login(string userId, string pwd)
         {
-            User user = GetUser(userId);
-            if(user.Pwd != Encrypt(pwd, user.Salt))
+            UserCredential userCredential = GetUserCredential(userId);
+            if(userCredential.Pwd != Encrypt(pwd, userCredential.Salt))
             {
                 throw new GameException(ErrorCode.INCORRECT_PASSWORD);
             }
@@ -66,8 +75,8 @@ namespace webapi.service.impl
                 throw new GameException(ErrorCode.USER_ID_EXIST);
             }
             Dictionary<string, string> hashedPassword = Encrypt(pwd);
-            User newUser = new User(userId, hashedPassword[PASSWORD], hashedPassword[SALT_KEY]);
-            _userRepo.AddUser(newUser);
+            UserCredential newUserCredential = new UserCredential(userId, hashedPassword[PASSWORD], hashedPassword[SALT_KEY]);
+            _userRepo.AddUser(newUserCredential);
             return userId;
         }
 
