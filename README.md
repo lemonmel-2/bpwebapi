@@ -20,7 +20,10 @@ This project provides a RESTful API for managing game resources, including authe
 **Authentication Required:** 4
 
 ## Database
-- **Tables:** Users, Inventories
+- **Tables:**
+    - UserCredential - userId, password, salt
+    - Users - userId, highestScore
+    - Inventories - userId, itemId, quantity
 
 ## Configuration
 
