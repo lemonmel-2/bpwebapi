@@ -23,7 +23,8 @@ jobs:
         dotnet-version: '8.0.x'
 
     - name: List files in the repository
-    - run: ls ${{ github.workspace }}
+      run: |
+        ls ${{ github.workspace }}
 
     - name: Restore dependencies
       run: dotnet restore
