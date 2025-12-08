@@ -36,7 +36,7 @@ Before running the project, configure the following in `appsettings.json`:
     - Set jwt key, issuer, audience to your preference. You can use the default value if you want. 
 
 3. **Dependency**
-    - Ensure following packages are installed:
+    - Ensure following packages are installed by running `dotnet restore` OR :
     ```
     dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer --version 8.0 
     dotnet add package Microsoft.EntityFrameworkCore.Sqlite --version 8.0.10
