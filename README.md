@@ -11,13 +11,12 @@ This project provides a RESTful API for managing game resources, including authe
 | `/api/game/register`       | GET    | Register new user     | No                      |
 | `/api/game/user`           | GET    | Get user              | Yes                     |
 | `/api/game/items`          | POST   | Show user items       | Yes                     |
-| `/api/game/item-random`    | POST   | Generate random item  | No                      |
 | `/api/game/item-add`       | GET    | Add new item          | Yes                     |
 | `/api/game/leaderboard`    | GET    | Get leaderboard       | No                      |
 | `/api/game/score`          | POST   | Record user score     | Yes                     |
 
 **Total APIs:** 7  
-**Authentication Required:** 3
+**Authentication Required:** 4
 
 ## Database
 - **Tables:** Users, Inventories
