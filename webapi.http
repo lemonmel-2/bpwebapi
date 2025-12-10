@@ -1,10 +1,10 @@
 @webapi_HostAddress = http://localhost:5242
-@access_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyNCIsIm5iZiI6MTc2NTA0MzEwMiwiZXhwIjoxNzY1MDQ2NzAyLCJpc3MiOiJ5b3VyLWFwcCIsImF1ZCI6InlvdXItY2xpZW50In0.h_O4sOUf99y8r9PnsJJiDAxnnYo0ICVGY-VlHViay_U
+@access_token =eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMSIsIm5iZiI6MTc2NTM1NTk3NCwiZXhwIjoxNzY1MzU5NTc0LCJpc3MiOiJ5b3VyLWFwcCIsImF1ZCI6InlvdXItY2xpZW50In0.Ue2lL2qhrHlQvX4iBBmjpGgknAG9ecw6CMKryDYrESw
 POST {{webapi_HostAddress}}/api/game/login
 Content-Type: application/json
 
 {
-    "userId": "user5",
+    "userId": "user1",
     "password": "hello"
 }
 
@@ -26,16 +26,8 @@ GET {{webapi_HostAddress}}/api/game/items
 Authorization: Bearer {{access_token}}
 Accept: application/json
 
-GET {{webapi_HostAddress}}/api/game/item-random
-Accept: application/json
-
 POST {{webapi_HostAddress}}/api/game/item-add
 Authorization: Bearer {{access_token}}
-Content-Type: application/json
-
-{
-    "itemId": "food001"
-}
 
 // leaderboard
 GET {{webapi_HostAddress}}/api/game/leaderboard
@@ -45,7 +37,7 @@ Authorization: Bearer {{access_token}}
 Content-Type: application/json
 
 {
-    "score": 1091
+    "score": 250
 }
 
 ###

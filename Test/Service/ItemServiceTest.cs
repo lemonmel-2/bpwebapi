@@ -69,7 +69,7 @@ namespace webapi.Test
         [Fact]
         public async Task AddItem_InvalidItem()
         {
-            var ex = Assert.Throws<GameException>(() => _itemService.AddItem("user", "test"));
+            var ex = await Assert.ThrowsAsync<GameException>(async () => _itemService.AddItem("user", "test"));
             Assert.Equal(ErrorCode.INVALID_ITEM, ex.Code);
         }
 

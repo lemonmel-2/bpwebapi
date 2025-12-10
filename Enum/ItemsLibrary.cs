@@ -10,6 +10,7 @@ namespace webapi.Enum
         public static readonly Item FOOD_001 = new Item("food001", "burger");
         public static readonly Item FOOD_002 = new Item("food002", "carrot");
 
+        public static readonly int ItemValue = 500;
         private static readonly Dictionary<string, Item> _itemDict = new Dictionary<string, Item>
         {
             { INVADER_001.ItemId, INVADER_001 },

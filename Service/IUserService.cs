@@ -13,5 +13,7 @@ namespace webapi.service
         public User GetUser(string userId);
 
         public List<User> GetLeaderboard();
+
+        public Task UpdateUserPoints(string userId, int points);
     }
 }

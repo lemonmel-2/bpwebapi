@@ -18,5 +18,6 @@ namespace webapi.Enum
         public static readonly ErrorCode INCORRECT_PASSWORD = new ErrorCode("INCORRECT_PASSWORD", "password is incorrect.");
         public static readonly ErrorCode INVALID_ITEM = new ErrorCode("INVALID_ITEM", "item not exist.");
         public static readonly ErrorCode DATABASE_ERROR = new ErrorCode("DATABASE_ERROR", "database error, data not saved.");
+        public static readonly ErrorCode INSUFFICIENT_POINTS = new ErrorCode("INSUFFICIENT_POINTS", "Oh no! You don't have enough points, play more to earn!");
     }
 }
