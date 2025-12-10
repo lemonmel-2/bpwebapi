@@ -169,28 +169,27 @@ namespace webapi.Test.Controller
         }
 
         [Fact]
-        public void AddItem_Normal()
+        public async Task AddItem_Normal()
         {
-            var request = new AddItemRequest { ItemId = "item1" };
-            _itemServiceMock.Setup(s => s.AddItem("testuser", "item1"));
+            _itemServiceMock.Setup(s => s.GenerateItem()).Returns(new Item("item1", "name"));
+            var result = await _controller.AddItem();
 
-            var result = _controller.AddItem(request);
-
-            VerifySuccessResult<bool>(result);
+            VerifySuccessResult<Item>(result);
             _itemServiceMock.Verify(s => s.AddItem("testuser", "item1"), Times.Once);
 
         }
 
         [Fact]
-        public void GenerateItem()
+        public async Task AddItem_InsufficientPoints()
         {
-            var item = new Item("randomItem", "name");
-            _itemServiceMock.Setup(s => s.GenerateItem()).Returns(item);
+            _itemServiceMock.Setup(s => s.GenerateItem()).Returns(new Item("item1", "name"));
+            _userServiceMock.Setup(s => s.UpdateUserPoints(It.IsAny<string>(), It.IsAny<int>())).Throws(new GameException(ErrorCode.INSUFFICIENT_POINTS));
 
-            var result = _controller.GenerateItem();
+            var result = await _controller.AddItem();
 
-            var resultItem = VerifySuccessResult<Item>(result);
-            Assert.Equal("randomItem", resultItem.Data.ItemId);
+            var badResult = VerifyBadResult<Item>(result);
+            Assert.Equal(ErrorCode.INSUFFICIENT_POINTS, badResult.Code);
+
         }
 
         [Fact]

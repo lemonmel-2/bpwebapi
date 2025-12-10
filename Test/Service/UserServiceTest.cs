@@ -82,8 +82,31 @@ namespace webapi.Test
             _userRepoMock.Setup(repo => repo.GetUser(userId)).Returns(user);
 
             bool isNewHighScore = await _userService.RecordNewScore(userId, 40);
-            _userRepoMock.Verify(repo => repo.UpdateUser(It.IsAny<User>()), Times.Never);
+            _userRepoMock.Verify(repo => repo.UpdateUser(It.IsAny<User>()), Times.Once);
             Assert.False(isNewHighScore);
+        }
+
+        [Fact]
+        public async Task UpdateUserPoints_Normal()
+        {
+            string userId = "testUser";
+            User user = new User(userId) { HighestScore = 50, Point = 50};
+            _userRepoMock.Setup(repo => repo.GetUser(userId)).Returns(user);
+
+            await _userService.UpdateUserPoints(userId, 40);
+            _userRepoMock.Verify(repo => repo.UpdateUser(It.IsAny<User>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task UpdateUserPoints_InsufficientBalance()
+        {
+            string userId = "testUser";
+            User user = new User(userId) { HighestScore = 50 , Point = 50};
+            _userRepoMock.Setup(repo => repo.GetUser(userId)).Returns(user);
+
+            var ex = await Assert.ThrowsAsync<GameException>(async() => await _userService.UpdateUserPoints(userId, 100));
+            _userRepoMock.Verify(repo => repo.UpdateUser(It.IsAny<User>()), Times.Never);
+            Assert.Equal(ErrorCode.INSUFFICIENT_POINTS, ex.Code);
         }
 
         [Fact]
