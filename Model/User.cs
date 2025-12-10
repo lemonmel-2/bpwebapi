@@ -6,10 +6,13 @@ namespace webapi.Model
 
         public int HighestScore { get; set; }
 
+        public int Point { get; set; }
+
         public User(string userId)
         {
             UserId = userId;
             HighestScore = 0;
+            Point = 0;
         }
     }
 }

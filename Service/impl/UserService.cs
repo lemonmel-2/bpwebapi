@@ -42,13 +42,15 @@ namespace webapi.service.impl
         public async Task<bool> RecordNewScore(string userId, int score)
         {
             User user = _userRepo.GetUser(userId);
+            bool breakRecord = false;
             if(score > user.HighestScore)
             {
                 user.HighestScore = score;
-                await _userRepo.UpdateUser(user);
-                return true;
+                breakRecord = true;
             }
-            return false;
+            user.Point += score ;
+            await _userRepo.UpdateUser(user);
+            return breakRecord;
         }
 
         public string Login(string userId, string pwd)
@@ -65,6 +67,17 @@ namespace webapi.service.impl
         {
             List<User> users = _userRepo.GetTopUsers();
             return users;
+        }
+
+        public async Task UpdateUserPoints(string userId, int pointToDeduct)
+        {
+            User user = _userRepo.GetUser(userId);
+            if(user.Point < pointToDeduct)
+            {
+                throw new GameException(ErrorCode.INSUFFICIENT_POINTS);
+            }
+            user.Point -= pointToDeduct;
+            await _userRepo.UpdateUser(user);
         }
 
         public string Register(string userId, string pwd)
