@@ -121,31 +121,14 @@ namespace webapi.Controller
         }
 
         [HttpPost("item-add")]
-        public ActionResult<Result<bool>> AddItem([FromBody] AddItemRequest request)
+        public async Task<ActionResult<Result<Item>>> AddItem()
         {
             try
             {
                 var userId = GetUserId();
-                if(string.IsNullOrWhiteSpace(request.ItemId))
-                {
-                    throw new GameException(ErrorCode.PARAM_ILLEGAL);
-                }
-                _itemService.AddItem(userId, request.ItemId);
-                return Ok(Result<bool>.Ok(true));
-            }
-            catch(GameException e)
-            {
-                return BadRequest(Result<List<Item>>.Fail(e.Code));
-            }
-        }
-
-        [AllowAnonymous]
-        [HttpGet("item-random")]
-        public ActionResult<Result<Item>> GenerateItem()
-        {
-            try
-            {
+                await _userService.UpdateUserPoints(userId, ItemsLibrary.ItemValue);
                 Item item = _itemService.GenerateItem();
+                _itemService.AddItem(userId, item.ItemId);
                 return Ok(Result<Item>.Ok(item));
             }
             catch(GameException e)
