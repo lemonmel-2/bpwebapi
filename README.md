@@ -21,7 +21,7 @@ This project provides a RESTful API for managing game resources, including authe
 ## Database
 - **Tables:**
     - UserCredential - userId, password, salt
-    - Users - userId, highestScore
+    - Users - userId, highestScore, point
     - Inventories - userId, itemId, quantity
 
 ## Configuration
@@ -49,7 +49,7 @@ Before running the project, configure the following in `appsettings.json`:
     ```
 
 ## To Run Test
-1. Ensure below packages are installed:
+1. Ensure below packages are installed by running `dotnet restore` OR :
     ```
     dotnet add package Microsoft.NET.Test.Sdk 
     dotnet add package Moq 
